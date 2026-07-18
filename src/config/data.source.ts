@@ -7,6 +7,6 @@ export const AppDataSource = new DataSource({
     database:"task_managment",
     username:"postgres",
     password:"12345",
-    synchronize:true,
+    synchronize:false,
     entities:[]
 });
