@@ -1,0 +1,35 @@
+import { AppDataSource } from "../config/data.source.js"
+import { User } from "../entities/user.entity.js"
+import brcypt from "bcrypt";
+
+interface UserDetails{
+    firstName:string,
+    lastName:string,
+    email:string
+    password:string
+}
+
+const userRegisterRepo = AppDataSource.getRepository(User);
+export const register = async ({firstName, lastName, email, password}:UserDetails) => {
+    const isUser = await userRegisterRepo.findOne({
+        where:{email:email}
+    })
+    
+    if (isUser) {
+        throw new Error("The User Already has registered: !");
+    }
+
+    const hashedPasswod = await brcypt.hash(password, 10);
+    
+    const newUser = userRegisterRepo.create({
+        firstName,
+        lastName,
+        email,
+        password:hashedPasswod
+    });
+
+    const savedUser = await userRegisterRepo.save(newUser);
+
+    const {password: _, ...safeUser} = savedUser;// retrun registered user without password
+    return safeUser;
+}

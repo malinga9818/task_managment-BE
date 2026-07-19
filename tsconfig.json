@@ -4,7 +4,7 @@
     
     "rootDir": "./src",
     "outDir": "./dist",
-
+    
     "module": "nodenext",
     "moduleResolution":"nodenext",
     "target": "es2022",
@@ -20,6 +20,8 @@
     "strict": true,
     "jsx": "react-jsx",
     "verbatimModuleSyntax": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
     "isolatedModules": true,
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
