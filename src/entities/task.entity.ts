@@ -3,22 +3,22 @@ import { User } from "./user.entity.js";
 
 @Entity()
 export class Task {
-    @PrimaryGeneratedColumn()
+    @PrimaryGeneratedColumn({type:"int"})
     id!:number;
 
-    @Column()
+    @Column({type:"varchar"})
     title!:string;
 
-    @Column()
+    @Column({type:"varchar"})
     description!:string;
 
-    @Column()
+    @Column({type:"timestamp", nullable:false})
     due_date!:Date;
 
-    @Column()
+    @Column({type:"varchar"})
     priority!:string;
 
-    @Column()
+    @Column({type:"varchar"})
     status!:string;
 
     @ManyToOne(() => User, (user) => user.tasks, { onDelete: "CASCADE", nullable: false })

@@ -3,19 +3,19 @@ import { Task } from "./task.entity.js";
 
 @Entity()
 export class User {
-    @PrimaryGeneratedColumn()
+    @PrimaryGeneratedColumn({type:"int"})
     id!: number;
 
-    @Column()
+    @Column({type:"varchar"})
     firstName!: string;
 
-    @Column()
+    @Column({type:"varchar"})
     lastName!: string;
 
-    @Column()
+    @Column({type:"varchar"})
     email!: string;
 
-    @Column()
+    @Column({type:"varchar"})
     password!: string;
 
     @OneToMany(() => Task, (tasks) => tasks.user)
