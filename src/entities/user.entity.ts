@@ -15,7 +15,7 @@ export class User {
     @Column({type:"varchar"})
     email!: string;
 
-    @Column({type:"varchar", select: false})
+    @Column({type:"varchar"})
     password!: string;
 
     @OneToMany(() => Task, (tasks) => tasks.user)

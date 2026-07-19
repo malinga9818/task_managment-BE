@@ -49,10 +49,13 @@ export const loginUser = async ({email, password}:UserLogin) => {
         }
     });
 
+    
     if (!isUser){
         throw new Error("Invalid email or password:")
     }
 
+
+    console.log(isUser);
     const isMatch = await brcypt.compare(password, isUser.password);//password has store with hashed
     if(!isMatch) {
         throw new Error("Invalid email or password:")
@@ -61,6 +64,7 @@ export const loginUser = async ({email, password}:UserLogin) => {
     const token = await generateToken ({
         user_id : isUser.id,
         email : isUser.email,
-    })
+    });
+    
     return {token, email:isUser.email}
 }
