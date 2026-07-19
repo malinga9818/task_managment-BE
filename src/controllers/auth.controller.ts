@@ -30,3 +30,14 @@ export const userLogin = async (req:Request, res:Response) => {
         res.status(400).json({message:err.message});
     } 
 }
+
+
+export const userLogout = async(rer:Request, res:Response) => {
+    res.clearCookie("token", {
+        httpOnly:true,
+        secure:false,
+        sameSite:"lax"
+    });
+
+    res.status(200).json({message:"Logged out successfully"})
+}
