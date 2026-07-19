@@ -1,6 +1,8 @@
 import { AppDataSource } from "../config/data.source.js"
 import { User } from "../entities/user.entity.js"
 import brcypt from "bcrypt";
+import { generateToken } from "../utils/jwt.util.js";
+
 
 interface UserDetails{
     firstName:string,
@@ -9,7 +11,13 @@ interface UserDetails{
     password:string
 }
 
+interface UserLogin{
+    email:string,
+    password:string
+}
+
 const userRegisterRepo = AppDataSource.getRepository(User);
+
 export const register = async ({firstName, lastName, email, password}:UserDetails) => {
     const isUser = await userRegisterRepo.findOne({
         where:{email:email}
@@ -32,4 +40,27 @@ export const register = async ({firstName, lastName, email, password}:UserDetail
 
     const {password: _, ...safeUser} = savedUser;// retrun registered user without password
     return safeUser;
+}
+
+export const loginUser = async ({email, password}:UserLogin) => {
+    const isUser = await userRegisterRepo.findOne({
+        where:{
+            email:email
+        }
+    });
+
+    if (!isUser){
+        throw new Error("Invalid email or password:")
+    }
+
+    const isMatch = await brcypt.compare(password, isUser.password);//password has store with hashed
+    if(!isMatch) {
+        throw new Error("Invalid email or password:")
+    }
+
+    const token = await generateToken ({
+        user_id : isUser.id,
+        email : isUser.email,
+    })
+    return {token, email:isUser.email}
 }
