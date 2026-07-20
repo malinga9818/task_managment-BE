@@ -1,10 +1,17 @@
 import { AppDataSource } from "../config/data.source.js";
 import type { CreateTaskDto } from "../dto/taskCreate.dto.js";
+import type { UpdateTaskDto } from "../dto/taskUpdate.dto.js";
 import { Task } from "../entities/task.entity.js";
 
 interface TaskCreate {
     user_id: number;
     data: CreateTaskDto;
+}
+
+interface TaskUpdate {
+    task_id: number;
+    user_id: number;
+    data: UpdateTaskDto;
 }
 
 
@@ -40,3 +47,22 @@ export const viewATask = async (task_id: number, user_id:number) => {
 
     return task;
 } 
+
+
+export const aTaskUpdate = async({task_id, user_id, data}:TaskUpdate) => {
+    const task = await taskRepo.findOne({
+        where:{
+            id:task_id,
+            user:{
+                id:user_id
+            }
+        }
+    })
+
+    if(!task) {
+        throw new Error(`The task with ${task_id} not found`);
+    }
+
+    taskRepo.merge(task, data);
+    return await taskRepo.save(task);
+}
