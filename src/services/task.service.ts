@@ -66,3 +66,21 @@ export const aTaskUpdate = async({task_id, user_id, data}:TaskUpdate) => {
     taskRepo.merge(task, data);
     return await taskRepo.save(task);
 }
+
+export const aTaskDelete = async (task_id:number, user_id:number) => {
+       const task = await taskRepo.findOne({
+            where:{
+                id:task_id,
+                user:{
+                    id:user_id
+                }
+            }
+       });
+
+       if(!task){
+            throw new Error(`The task with ${task_id} not found`);
+       }
+
+       await taskRepo.remove(task);
+       return task;
+}
