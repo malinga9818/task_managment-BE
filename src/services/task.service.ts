@@ -61,11 +61,24 @@ export const aTaskUpdate = async({task_id, user_id, data}:TaskUpdate) => {
         }
     })
 
+    console.log("1", task);
     if(!task) {
         throw new Error(`The task with ${task_id} not found`);
     }
 
-    taskRepo.merge(task, data);
+    const oldStatus = task.status
+
+    Object.assign(task, data);
+
+    console.log(task)
+    if (oldStatus !== "Completed" && task.status === "Completed" ){
+        task.createdAt =new Date();
+    }
+
+    if (oldStatus === "Completed" && task.status !== "Completed"){
+        task.createdAt = null;
+    }
+
     return await taskRepo.save(task);
 }
 
@@ -102,4 +115,58 @@ export const userTasksGet = async (user_id:number, filters: {status?:string; pri
     }
 
     return tasks;
+}
+
+export const cardSummery = async (user_id:number) => {
+    const tasks = await taskRepo.find({
+        where:{
+            user:{id:user_id}
+        }
+    });
+    
+    let todo = 0;
+    let inprogress = 0;
+    let completed = 0;
+
+    let low = 0;
+    let medium = 0;
+    let high = 0;
+
+    let completedToday = 0;
+    let overdue = 0;
+
+    const now = new Date();
+    const todayStart = new Date (now.getFullYear(), now.getMonth(), now.getDate())
+
+
+    tasks.forEach((task) => {
+        if (task.status === "To Do") todo++
+        else if(task.status === "In Progress") inprogress++
+        else if(task.status === "Completed") completed++
+
+        if (task.priority === "High") high++
+        else if (task.priority === "medium") medium++
+        else if (task.priority === "low") low++
+
+        if (task.status === "Completed" && task.createdAt){
+            const completedDate = new Date (task.createdAt);
+            if (completedDate >= todayStart) completedToday ++
+        }
+
+        if (task.status !== "Completed" && task.due_date && new Date(task.due_date) < now){
+            overdue++
+        }
+
+    });
+
+    return {
+        statusDistribution:{todo, inprogress, completed},
+        priorityDistribution:{high, medium, low},
+        summeryCard:{
+            totalActive:inprogress+todo,
+            completedToday,
+            overdue
+        }
+    }
+
 }

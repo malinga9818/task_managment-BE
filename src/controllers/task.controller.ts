@@ -4,6 +4,7 @@ import { viewATask } from "../services/task.service.js";
 import { aTaskUpdate } from "../services/task.service.js";
 import { aTaskDelete } from "../services/task.service.js";
 import { userTasksGet } from "../services/task.service.js";
+import { cardSummery } from "../services/task.service.js";
 
 export const createTask = async (req:Request, res:Response) => {
     try{
@@ -63,6 +64,17 @@ export const getUserTasks = async (req:Request, res:Response) => {
             priority:priority as string
         });
         return res.status(200).json(result);
+    }
+    catch (err:any) {
+        res.status(400).json({message:err.message});
+    }
+}
+
+export const viewSummeryCard = async (req:Request, res:Response) => {
+    try{
+        const {user_id} = (req as any).user;
+        const result = await cardSummery(user_id);
+        res.status(200).json(result);
     }
     catch (err:any) {
         res.status(400).json({message:err.message});
