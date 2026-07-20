@@ -15,6 +15,8 @@ interface TaskUpdate {
 }
 
 
+
+
 const taskRepo = AppDataSource.getRepository(Task)
 export const taskMake = async ({data, user_id}:TaskCreate) => {
     console.log("service date", data);
@@ -83,4 +85,21 @@ export const aTaskDelete = async (task_id:number, user_id:number) => {
 
        await taskRepo.remove(task);
        return task;
+}
+
+export const userTasksGet = async (user_id:number, filters: {status?:string; priority?:string}) => {
+    const where:any = {user: {id: user_id}};
+    if (filters.status) where.status = filters.status;
+    if (filters.priority) where.priority = filters.priority;
+
+    const tasks = await taskRepo.find({
+        where,
+        order: {id: "ASC"}
+    })
+
+    if (tasks.length === 0) {
+        throw new Error("Task not found");
+    }
+
+    return tasks;
 }
