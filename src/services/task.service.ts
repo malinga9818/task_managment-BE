@@ -23,3 +23,20 @@ export const taskMake = async ({data, user_id}:TaskCreate) => {
 
     return await taskRepo.save(task);
 }
+
+export const viewATask = async (task_id: number, user_id:number) => {
+    const task = await taskRepo.findOne({
+        where:{
+            id:task_id,
+            user: {
+                id:user_id
+            }
+        }
+    });
+
+    if (!task) {
+        throw new Error(`Task with id ${task_id} not found`);
+    }
+
+    return task;
+} 
