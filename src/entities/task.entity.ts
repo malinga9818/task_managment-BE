@@ -21,6 +21,9 @@ export class Task {
     @Column({type:"varchar"})
     status!:string;
 
+    @Column({type:"timestamp", nullable:true})
+    createdAt?:Date | null
+
     @ManyToOne(() => User, (user) => user.tasks, { onDelete: "CASCADE", nullable: false })
     @JoinColumn({name:"user_id"})
     user!:User;
