@@ -86,32 +86,20 @@ REST API for the Task Management System, built with Express and TypeORM, providi
 Two main tables: **User** and **Task**, in a one-to-many relationship (one user has many tasks, each task belongs to exactly one user).
 
 ```
-                    USER
- ┌──────────────────────┐
- │ id (PK)              │
- │ firstName            │
- │ lastName             │
- │ email                │
- │ password             │
- └──────────────────────┘
-          │
-          │ 1
-          │
-          │
-          │ *       TASK
- ┌──────────────────────┐
- │                  │
- │ id (PK)              │
- │ title                │
- │ description          │
- │ due_date             │
- │ priority             │
- │ status               │
- │ createdAt            │
- │ user_id (FK)         │
- └──────────────────────┘
+┌───────────────────────┐          ┌────────────────────────────┐
+│         User          │          │            Task            │
+├───────────────────────┤          ├────────────────────────────┤
+│ id           PK, int  │          │ id            PK, int      │
+│ firstName    varchar  │          │ title         varchar      │
+│ lastName     varchar  │          │ description   varchar      │
+│ email        varchar  │          │ due_date      timestamp    │
+│ password     varchar  │          │ priority      varchar      │
+└───────────────────────┘          │ status        varchar      │
+                                   │ createdAt timestamp, null  │
+                                   │ user_id       FK → User.id │
+                                   └────────────────────────────┘
+```
 
- 
 **User**
 | Column | Type | Notes |
 |---|---|---|
