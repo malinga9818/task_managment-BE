@@ -5,11 +5,12 @@ import { loginUser } from "../services/auth.service.js";
 export const registerUser = async (req:Request, res:Response) => {
    
     try{
+        console.log(req.body);
         const {firstName, lastName, email, password} = req.body;
         const result = await register({firstName, lastName, email, password});
         res.status(200).json(result);
     }catch (err:any){
-        res.status(400).json({message:err.message})
+        res.status(404).json({message:err.message})
     }
 }
 
@@ -17,7 +18,10 @@ export const registerUser = async (req:Request, res:Response) => {
 export const userLogin = async (req:Request, res:Response) => {
     try{
         const {email, password} = req.body;
+        console.log("password",password);
+        console.log("email", email);
         const result = await loginUser({email, password})
+        console.log(result);
         res.cookie("token", result.token, {
             httpOnly:true,
             secure:false,
@@ -27,7 +31,7 @@ export const userLogin = async (req:Request, res:Response) => {
         res.status(200).json(result.email);
     } 
     catch (err:any){
-        res.status(400).json({message:err.message});
+        res.status(404).json({message:err.message});
     } 
 }
 

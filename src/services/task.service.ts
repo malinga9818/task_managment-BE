@@ -19,8 +19,6 @@ interface TaskUpdate {
 
 const taskRepo = AppDataSource.getRepository(Task)
 export const taskMake = async ({data, user_id}:TaskCreate) => {
-    console.log("service date", data);
-    console.log(user_id);
     const task = taskRepo.create({
         title:data.title,
         description:data.description,
@@ -48,6 +46,7 @@ export const viewATask = async (task_id: number, user_id:number) => {
     }
 
     return task;
+    
 } 
 
 
@@ -114,7 +113,13 @@ export const userTasksGet = async (user_id:number, filters: {status?:string; pri
         throw new Error("Task not found");
     }
 
-    return tasks;
+    // return tasks;
+     return tasks.map((task) => ({
+        ...task,
+        due_date: task.due_date
+            ? new Date(task.due_date).toISOString().split("T")[0]
+            : null,
+    }));
 }
 
 export const cardSummery = async (user_id:number) => {
@@ -145,8 +150,8 @@ export const cardSummery = async (user_id:number) => {
         else if(task.status === "Completed") completed++
 
         if (task.priority === "High") high++
-        else if (task.priority === "medium") medium++
-        else if (task.priority === "low") low++
+        else if (task.priority === "Medium") medium++
+        else if (task.priority === "Low") low++
 
         if (task.status === "Completed" && task.createdAt){
             const completedDate = new Date (task.createdAt);
