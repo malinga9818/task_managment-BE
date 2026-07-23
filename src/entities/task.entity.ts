@@ -1,4 +1,5 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn,} from "typeorm";
+import type { Relation } from "typeorm";
 import { User } from "./user.entity.js";
 
 @Entity()
@@ -26,5 +27,5 @@ export class Task {
 
     @ManyToOne(() => User, (user) => user.tasks, { onDelete: "CASCADE", nullable: false })
     @JoinColumn({name:"user_id"})
-    user!:User;
+    user!:Relation<User>; // ← wrapped in Relation<>
 }

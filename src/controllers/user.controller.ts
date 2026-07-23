@@ -24,7 +24,7 @@ export const userProfileUpdate = async (req:Request, res:Response) => {
         return res.status(200).json(result)
     }
     catch (err:any) {
-        res.status(400).json({message:err.message});
+        res.status(404).json({message:err.message});
     }
     
     

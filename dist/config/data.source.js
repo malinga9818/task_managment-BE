@@ -2,9 +2,7 @@ import { DataSource } from "typeorm";
 import { User } from "../entities/user.entity.js";
 import { Task } from "../entities/task.entity.js";
 import dotenv from "dotenv";
-dotenv.config()
-
-
+dotenv.config();
 export const AppDataSource = new DataSource({
     type: "postgres",
     host: process.env.DB_HOST ?? "localhost",
@@ -15,3 +13,4 @@ export const AppDataSource = new DataSource({
     synchronize: true,
     entities: [User, Task]
 });
+//# sourceMappingURL=data.source.js.map

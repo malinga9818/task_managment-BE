@@ -10,7 +10,7 @@ export const registerUser = async (req:Request, res:Response) => {
         const result = await register({firstName, lastName, email, password});
         res.status(200).json(result);
     }catch (err:any){
-        res.status(400).json({message:err.message})
+        res.status(404).json({message:err.message})
     }
 }
 
@@ -31,7 +31,7 @@ export const userLogin = async (req:Request, res:Response) => {
         res.status(200).json(result.email);
     } 
     catch (err:any){
-        res.status(400).json({message:err.message});
+        res.status(404).json({message:err.message});
     } 
 }
 

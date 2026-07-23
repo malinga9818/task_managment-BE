@@ -13,7 +13,7 @@ export const createTask = async (req:Request, res:Response) => {
         res.status(200).json(result);
     }
     catch (err:any) {
-        res.status(400).json({message:err.message});
+        res.status(404).json({message:err.message});
     }
 }
 
@@ -25,7 +25,7 @@ export const getATask = async (req:Request, res:Response) => {
         res.status(200).json(result);                
     }
     catch(err:any) {
-        res.status(400).json({message:err.message});
+        res.status(404).json({message:err.message});
     }
 }
 
@@ -38,7 +38,7 @@ export const updateATask = async (req:Request, res:Response) => {
         res.status(200).json(result);
     }
     catch (err:any) {
-        res.status(400).json({message:err.message});
+        res.status(404).json({message:err.message});
     }
 }
 
@@ -50,7 +50,7 @@ export const deleteATask = async (req:Request, res:Response) => {
         res.status(200).json(result);
     }
     catch (err:any) {
-        res.status(400).json({message:err.message});
+        res.status(404).json({message:err.message});
     }
 }
 
@@ -66,7 +66,7 @@ export const getUserTasks = async (req:Request, res:Response) => {
         return res.status(200).json(result);
     }
     catch (err:any) {
-        res.status(400).json({message:err.message});
+        res.status(404).json({message:err.message});
     }
 }
 
@@ -77,6 +77,6 @@ export const viewSummeryCard = async (req:Request, res:Response) => {
         res.status(200).json(result);
     }
     catch (err:any) {
-        res.status(400).json({message:err.message});
+        res.status(404).json({message:err.message});
     }
 }

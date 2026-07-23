@@ -1,4 +1,5 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn,} from "typeorm";
+import type { Relation } from "typeorm";
 import { Task } from "./task.entity.js";
 
 @Entity()
@@ -19,6 +20,6 @@ export class User {
     password!: string;
 
     @OneToMany(() => Task, (tasks) => tasks.user)
-    tasks!:Task[];
+    tasks!:Relation<Task>[]; // ← wrapped in Relation<>
 
 }

@@ -1,0 +1,1 @@
+{"version":3,"file":"taskCreate.dto.d.ts","sourceRoot":"","sources":["../../src/dto/taskCreate.dto.ts"],"names":[],"mappings":"AAEA,qBAAa,aAAa;IAEtB,KAAK,EAAE,MAAM,CAAC;IAGd,WAAW,EAAE,MAAM,CAAC;IAGpB,QAAQ,EAAG,IAAI,CAAC;IAGhB,QAAQ,EAAE,MAAM,CAAC;IAGjB,MAAM,EAAE,MAAM,CAAC;CAClB"}

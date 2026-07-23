@@ -19,8 +19,6 @@ interface TaskUpdate {
 
 const taskRepo = AppDataSource.getRepository(Task)
 export const taskMake = async ({data, user_id}:TaskCreate) => {
-    console.log("service date", data);
-    console.log(user_id);
     const task = taskRepo.create({
         title:data.title,
         description:data.description,
