@@ -69,7 +69,6 @@ export const aTaskUpdate = async({task_id, user_id, data}:TaskUpdate) => {
 
     Object.assign(task, data);
 
-    console.log(task)
     if (oldStatus !== "Completed" && task.status === "Completed" ){
         task.createdAt =new Date();
     }

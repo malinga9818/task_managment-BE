@@ -18,10 +18,7 @@ export const registerUser = async (req:Request, res:Response) => {
 export const userLogin = async (req:Request, res:Response) => {
     try{
         const {email, password} = req.body;
-        console.log("password",password);
-        console.log("email", email);
         const result = await loginUser({email, password})
-        console.log(result);
         res.cookie("token", result.token, {
             httpOnly:true,
             secure:false,

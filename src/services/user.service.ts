@@ -9,11 +9,18 @@ interface UserProfileUpdate{
 
 const userRepo = AppDataSource.getRepository(User);
 export const userView = async (user_id:number) => {
-     return await userRepo.findOne({
+     const user = await userRepo.findOne({
         where:{
             id:user_id
         }
     });
+
+    if (!user) {
+        throw new Error(`User with id ${user_id} not found`);
+    }
+    const{password:_, ...userWhthoutPassword} = user;
+    return userWhthoutPassword
+
 } 
 
 export const updateUserProfile = async ({user_id, data}:UserProfileUpdate) => {
@@ -22,6 +29,10 @@ export const updateUserProfile = async ({user_id, data}:UserProfileUpdate) => {
             id: user_id
         }
     });
+    
+    if (!user) {
+        throw new Error(`User with id ${user_id} not found`);
+    }
     
     userRepo.merge(user!, data);
     const updatedUser = await userRepo.save(user!);
